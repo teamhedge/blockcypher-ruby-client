@@ -227,6 +227,11 @@ module BlockCypher
       api_http_post('/wallets', json_payload: payload)
     end
 
+    def wallet_create_hd(name, extended_public_key, options = {})
+      payload = { 'name' => name, 'extended_public_key' => extended_public_key }.merge(options)
+      api_http_post('/wallets/hd', json_payload: payload)
+    end
+
     def wallet_get(name)
       api_http_get('/wallets/' + name)
     end
@@ -242,6 +247,10 @@ module BlockCypher
       api_http_get('/wallets/' + name + '/addresses')
     end
 
+    def wallet_get_hd_addr(name)
+      api_http_get('/wallets/hd/' + name + '/addresses')
+    end
+
     def wallet_delete_addr(name, addresses)
       addrjoin = addresses.join(";")
       api_http_delete('/wallets/' + name + '/addresses', query: { address: addrjoin})
@@ -249,6 +258,12 @@ module BlockCypher
 
     def wallet_gen_addr(name)
       api_http_post('/wallets/' + name + '/addresses/generate')
+    end
+
+    def wallet_derive_addr(name, options = {})
+      payload = options
+      api_http_post('/wallets/hd/' + name + '/addresses/derive',
+                    json_payload: payload)
     end
 
     def wallet_delete(name)
