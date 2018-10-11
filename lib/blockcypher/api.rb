@@ -357,6 +357,14 @@ module BlockCypher
       api_http_get("/oap/#{asset_id}/addrs/#{oap_address}")
     end
 
+    ############
+    # Contract API #
+    ################
+
+    def call_contract(address, method, json_payload)
+      api_http_post("/contracts/#{address}/#{method}", json_payload: json_payload)
+    end
+
     private
 
     def api_http_call(http_method, api_path, query, json_payload: nil)
